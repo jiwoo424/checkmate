@@ -148,16 +148,16 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     # 조항 설명 LangChain(standard prompt)
     if not detection:
-    explanation_template = """
+      explanation_template = """
     주어진 조항: "{clause}"
 
     용어 설명: {term_explanations}
 
     용어 설명을 이용해서, 주어진 조항을 일반인도 이해하기 쉽도록 설명해.
     """
-    explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations"])
+      explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations"])
     else:
-    explanation_template = """
+      explanation_template = """
     주어진 조항은 불리한 조항으로 감지된 조항이다.
     유사 과거 조항에 대한 해석을 바탕으로 주어진 조항이 불합리한 이유를 쉽게 설명해.
 
@@ -215,10 +215,10 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     답변:
     """
-    explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations","corr_ex","judgment"])
+      explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations","corr_ex","judgment"])
     # LLMChain을 사용하여 프롬프트와 LLM을 연결
 
-    chain = LLMChain(prompt=explanation_prompt, llm=llm)
+      chain = LLMChain(prompt=explanation_prompt, llm=llm)
 
     # 조항 설명 생성
     if not detection:
