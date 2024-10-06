@@ -121,7 +121,7 @@ if file is not None:
 
         # 위험 조항인 경우 추가 정보 출력
         if detection_result == 1:
-            st.write("⚠️ 유사한 위험 조항 발견:")
+            st.write("### ⚠️ 유사한 위험 조항 발견:")
             st.write(f"유사 조항: {sim_clause}")
             st.write(f"판단 근거: {judgment}")
             reason = reason.split('<sep>')
