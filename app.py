@@ -84,29 +84,31 @@ if file is not None:
 
     # 각 조항에 대한 처리 및 출력
     for i, clause in enumerate(clauses):
-        # 조항 제목 추출 (예: "제 n 조 (용도변경 및 전대 등)")
-        clause_title = re.search(r'제\s?\d+\s?조[^(\n]*', clause)  # "제 n 조"와 괄호 앞 내용까지 추출
-        if clause_title:
-            clause_title = clause_title.group(0).strip()
-        else:
-            clause_title = f"조항 {i+1}"  # "제 n 조" 패턴이 없는 경우 기본 제목 사용
-
         # 위험 조항 감지
         sim_clause, judgment, detection_result = detection(clause, embeddings, vector_store)
         
-        # 조항 제목을 표시 (h3 태그 사용)
+        # 조항 출력 스타일 결정 (위험 조항인 경우 빨간색 테두리)
         if detection_result == 1:
-            st.markdown(f"<h3 style='color: red;'>{clause_title}</h3>", unsafe_allow_html=True)
+            st.markdown(
+                f"<div style='padding: 10px; border: 2px solid red; border-radius: 5px; background-color: #ffe6e6;'>{clause}</div>", 
+                unsafe_allow_html=True
+            )
         else:
-            st.markdown(f"<h3 style='color: black;'>{clause_title}</h3>", unsafe_allow_html=True)
-        
-        # 조항 내용 출력 (약간 강조된 스타일 적용)
-        st.markdown(f"<div style='padding: 10px; border: 1px solid #ddd; border-radius: 5px;'>{clause}</div>", unsafe_allow_html=True)
+            st.markdown(
+                f"<div style='padding: 10px; border: 1px solid #ddd; border-radius: 5px;'>{clause}</div>", 
+                unsafe_allow_html=True
+            )
 
         # 조항에서 법률 용어 추출 및 설명 가져오기
         legal_terms = extract_legal_terms(clause, terms_df)
         term_explanations = legal_explanations(legal_terms, terms_df)
         
+        # 용어 설명 출력
+        if term_explanations:
+            st.write("### 용어 설명")
+            for term, explanation in term_explanations.items():
+                st.write(f"**{term}**: {explanation}")
+
         # LangChain을 사용하여 조항 설명 생성
         explanation = generate_clause_explanation(clause, term_explanations)
         st.write("설명:", explanation)
