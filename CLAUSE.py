@@ -146,8 +146,8 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     # 조항 설명 생성
     if not detection:
-        simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations}).content
+        simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations})
     else:
-        simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations, "corr_ex": corr_ex, "judgment": judgment}).content
+        simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations, "corr_ex": corr_ex, "judgment": judgment})
 
     return simplified_clause
