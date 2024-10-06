@@ -14,7 +14,7 @@ api_key = st.secrets['API_KEY']
 embeddings = UpstageEmbeddings(model="solar-embedding-1-large-passage", api_key=api_key)
 
 # Chroma 데이터베이스 경로 설정
-persist_directory_db = "/chroma_db"
+persist_directory_db = "./chroma_db"
 vector_store = Chroma(
     persist_directory=persist_directory_db,
     embedding_function=embeddings
