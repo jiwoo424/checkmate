@@ -113,11 +113,13 @@ if file is not None:
             st.write("### 용어 설명")
             for term, explanation in term_explanations.items():
                 st.write(f"**{term}**: {explanation}")
-
         # LangChain을 사용하여 조항 설명 생성
-        explanation = generate_explanation(clause, term_explanations)
+        explanation,reason = explanation(clause)
         st.write("### 조항에 대한 설명")
         st.write(explanation)
+
+
+
 
         # 구분선 추가
         st.write("________________________________")
