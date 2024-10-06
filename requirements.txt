@@ -13,3 +13,4 @@ langchain-community==0.3.1
 pydantic==2.*
 scikit-learn
 chromadb
+protobuf==3.20.*
