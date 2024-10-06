@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify
 import re
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_community.vectorstores import Chroma  # Deprecated 경로에서 업데이트
+from langchain_community.vectorstores import Chroma
 
 import langchain
 langchain.verbose = False
@@ -22,12 +22,10 @@ from OCR import extract_clauses_with_order, clean_text, classify_remaining_text,
 from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
 from DETECTION import initialize_embeddings, load_vector_store, detection
 
-# ChromaDB 경로 설정 (이미 생성된 데이터베이스 경로를 지정)
 persist_directory = "./chroma_data"
 persist_directory_db = "./chroma_db"
 
 
-# 임베딩 모델 및 벡터 스토어 로드
 api_key = st.secrets['API_KEY']
 embeddings = initialize_embeddings(api_key)
 vector_store = load_vector_store(persist_directory, embeddings)
@@ -134,6 +132,4 @@ if file is not None:
             st.write("### 조항에 대한 설명")
             st.write(explanation)
 
-        
-        # 구분선 추가
         st.write("________________________________")

@@ -13,12 +13,10 @@ from langchain.vectorstores import Chroma
 
 from DETECTION import initialize_embeddings, load_vector_store
 
-# ChromaDB 경로 설정 (이미 생성된 데이터베이스 경로를 지정)
 persist_directory = "./chroma_data"
 persist_directory_db = "./chroma_db"
 
 
-# 임베딩 모델 및 벡터 스토어 로드
 api_key = st.secrets['API_KEY']
 embeddings = initialize_embeddings(api_key)
 vector_store = load_vector_store(persist_directory, embeddings)
@@ -38,7 +36,6 @@ terms_df = pd.read_csv("web_terms.csv")
 preceds_df = pd.read_csv("판례.csv")
 clauses_df = pd.read_csv("조항.csv")
 
-# 법률 용어 설명
 def legal_explanations(terms, terms_df):
     explanations = {}
     for term in terms:
@@ -55,7 +52,6 @@ class ChatUpstageLLM(LLM):
         self.chat_upstage = ChatUpstage(model=model, upstage_api_key=api_key)
 
     def _call(self, prompt: str, stop: Optional[list[str]] = None) -> str:
-        # ChatUpstage의 generate 또는 비슷한 메서드를 사용하여 응답을 생성
         response = self.chat_upstage.generate(prompt)
         return response.content
 
@@ -65,11 +61,9 @@ class ChatUpstageLLM(LLM):
 
 
 def generate_clause_explanation(clause, term_explanations, detection=False, corr_ex=None, judgment=None):
-    # Upstage 모델 초기화
     model = 'solar-1-mini-chat'
     llm = ChatUpstage(model=model, upstage_api_key=api_key)
 
-    # 조항 설명 LangChain(standard prompt)
     if not detection:
       explanation_template = """
     주어진 조항: "{clause}"
@@ -139,12 +133,10 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
     답변:
     """
       explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations","corr_ex","judgment"])
-    # LLMChain을 사용하여 프롬프트와 LLM을 연결
 
     
     chain = LLMChain(prompt=explanation_prompt, llm=llm)
 
-    # 조항 설명 생성
     if not detection:
         simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations})['text']
     else:
