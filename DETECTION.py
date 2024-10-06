@@ -5,6 +5,7 @@ from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain.schema import Document
 from langchain_upstage import UpstageEmbeddings
 from sklearn.metrics.pairwise import cosine_similarity
+import sqlite3
 
 # 벡터 스토어 및 임베딩 설정 함수
 
