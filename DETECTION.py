@@ -7,6 +7,7 @@ from langchain_upstage import UpstageEmbeddings
 from sklearn.metrics.pairwise import cosine_similarity
 import sqlite3
 
+embeddings = UpstageEmbeddings(model="solar-embedding-1-large-passage")
 
 api_key = st.secrets['API_KEY']
 
