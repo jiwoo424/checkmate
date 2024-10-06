@@ -129,7 +129,8 @@ if file is not None:
             for r in reason:
                 context_docs = retriever.invoke(r)
                 r = context_docs[0].metadata['source'] + " " + r
-                st.writer(f"법적 근거: {r}")
+                st.write("### 법적 근거")
+                st.write(r)
         
         # 구분선 추가
         st.write("________________________________")
