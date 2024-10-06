@@ -12,3 +12,4 @@ langchain==0.3.2
 langchain-community==0.3.1
 pydantic==2.*
 scikit-learn
+chromadb
