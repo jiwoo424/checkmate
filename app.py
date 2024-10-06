@@ -83,9 +83,6 @@ if file is not None:
 
 # 각 조항에 대한 처리 및 출력
     for i, clause in enumerate(clauses):
-    # 조항 제목 추출
-        clause_title = clause.split('\n')[0]  # "제n조" 부분을 가져옴
-
     # 위험 조항 감지
         sim_clause, judgment, detection_result = detection(clause, embeddings, vector_store)
     
@@ -93,11 +90,9 @@ if file is not None:
         if detection_result == 1:
             st.markdown(f"<h2 style='color: red;'>{clause_title}</h2>", unsafe_allow_html=True)
         else:
-            st.subheader(clause_title)
+            st.subheader(clause)
     
     # 조항 내용 출력
-        st.write(clause)
-
     # 조항에서 법률 용어 추출 및 설명 가져오기
         legal_terms = extract_legal_terms(clause, terms_df)
         term_explanations = legal_explanations(legal_terms, terms_df)
