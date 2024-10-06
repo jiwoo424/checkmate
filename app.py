@@ -24,6 +24,7 @@ from DETECTION import initialize_embeddings, load_vector_store, detection
 persist_directory = "./chroma_db"
 
 # 임베딩 모델 및 벡터 스토어 로드
+api_key = st.secrets['API_KEY']
 embeddings = initialize_embeddings(api_key)
 vector_store = load_vector_store(persist_directory, embeddings)
 
