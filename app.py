@@ -120,9 +120,9 @@ if file is not None:
             explanation = generate_clause_explanation(clause, term_explanations, True, sim_clause, judgment)
             st.write("### 조항에 대한 설명")
             st.write(explanation)
-            st.write("### ⚠️ 유사한 위험 조항 발견:")
+            st.write("### ⚠️ 유사한 위험 조항 발견")
             st.write(f"유사 조항: {sim_clause}")
-            st.write(f"판단 근거: {judgment}")
+            st.write(f"전문가 견해: {judgment}")
             reason = reason.split('<sep>')
             for r in reason:
                 context_docs = retriever.invoke(r)
