@@ -17,7 +17,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
-from CLAUSE import extract_legal_terms, legal_explanations, explanation, terms_df
+from CLAUSE import extract_legal_terms, legal_explanations, generate_explanation, terms_df
 from DETECTION import initialize_embeddings, load_vector_store, detection
 
 # ChromaDB 경로 설정 (이미 생성된 데이터베이스 경로를 지정)
@@ -110,7 +110,7 @@ if file is not None:
                 st.write(f"**{term}**: {explanation}")
 
         # LangChain을 사용하여 조항 설명 생성
-        explanation = explanation(clause, term_explanations)
+        explanation = generate_explanation(clause, term_explanations)
         st.write("### 조항에 대한 설명")
         st.write(explanation)
 
