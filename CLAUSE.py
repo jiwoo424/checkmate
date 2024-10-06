@@ -67,7 +67,7 @@ class ChatUpstageLLM(LLM):
 def generate_clause_explanation(clause, term_explanations, detection=False, corr_ex=None, judgment=None):
     # Upstage 모델 초기화
     model = 'solar-1-mini-chat'
-    llm = ChatUpstage(model=model, upstage_api_key=api_key)
+    llm = ChatUpstage(model=model, temperature=0, upstage_api_key=api_key)
 
     # 조항 설명 LangChain(standard prompt)
     if not detection:
