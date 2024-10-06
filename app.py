@@ -20,6 +20,12 @@ from OCR import extract_clauses_with_order, clean_text, classify_remaining_text,
 from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
 from DETECTION import vector_store, detection, embeddings
 
+# ChromaDB 경로 설정 (이미 생성된 데이터베이스 경로를 지정)
+persist_directory = "./chroma_db"
+
+# 임베딩 모델 및 벡터 스토어 로드
+embeddings = initialize_embeddings(api_key)
+vector_store = load_vector_store(persist_directory, embeddings)
 
 	
 st.title("전세/월세 사기계약 방지를 위한 부동산계약서 검토-분석 서비스 ")
@@ -76,12 +82,10 @@ if file is not None:
         if item['type'] == '조항':
             clauses.append(item['content'])
 
-    # 벡터 스토어 및 임베딩 설정
-    vector_store = vector_store
 
     for i, clause in enumerate(clauses):
         # 위험 조항 감지
-        sim_clause, judgment, reason, detection_result = detection(clause)
+        sim_clause, judgment, reason, detection_result = detection(clause_text, vector_store, embeddings)
 
         # 조항 출력 스타일 결정 (위험 조항인 경우 빨간색 테두리)
         if detection_result == 1:
