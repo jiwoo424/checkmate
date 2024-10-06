@@ -16,18 +16,22 @@ def setup_vector_store(persist_directory, api_key):
     vector_store = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
     return embeddings, vector_store
 
-
 # 위험 조항 탐지 함수
 def detection(clause, embeddings, vector_store):
-    results = vector_store.similarity_search(clause, k=1)[0]
-    sim_clause = results.page_content
+    results = vector_store.similarity_search(clause, k=1)
+    
+    # 결과가 비어 있는지 확인
+    if not results:
+        return None, None, 0
+    
+    sim_clause = results[0].page_content
     query_vector = embeddings.embed_query(clause)
     stored_vector = embeddings.embed_query(sim_clause)
 
     cosine_sim = cosine_similarity([query_vector], [stored_vector])[0][0]
 
     if cosine_sim > 0.8:
-        judgment = results.metadata['illdcssBasiss']
+        judgment = results[0].metadata['illdcssBasiss']
         return sim_clause, judgment, 1
     else:
         return None, None, 0
