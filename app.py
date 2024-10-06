@@ -114,7 +114,7 @@ if file is not None:
             for term, explanation in term_explanations.items():
                 st.write(f"**{term}**: {explanation}")
         # LangChain을 사용하여 조항 설명 생성
-        explanation,reason = explanation(clause)
+        explanation,reason = generate_explanation(clause)
         st.write("### 조항에 대한 설명")
         st.write(explanation)
 
