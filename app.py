@@ -22,7 +22,7 @@ from DETECTION import setup_vector_store, detection
 
 
 	
-st.title("전세사기 방지를 위한 부동산계약서 검토-분석 서비스")
+st.title("전세/월세 사기계약 방지를 위한 부동산계약서 검토-분석 서비스 ")
 st.write(""" 명품인재 x 업스테이지 LLM Innovators Challenge """,unsafe_allow_html=True)
 st.write(""" <p> team <b style="color:red">체크메이트</b></p>""",unsafe_allow_html=True)
 st.write("________________________________")
@@ -81,31 +81,41 @@ if file is not None:
     api_key = st.secrets['API_KEY']
     embeddings, vector_store = setup_vector_store(persist_directory, api_key)
 
-# 각 조항에 대한 처리 및 출력
+
+    # 각 조항에 대한 처리 및 출력
     for i, clause in enumerate(clauses):
-    # 위험 조항 감지
-        sim_clause, judgment, detection_result = detection(clause, embeddings, vector_store)
-    
-    # 조항 출력 색상 결정
-        if detection_result == 1:
-            st.markdown(f"<h2 style='color: red;'>{clause_title}</h2>", unsafe_allow_html=True)
+        # 조항 제목 추출 (예: "제 n 조 (용도변경 및 전대 등)")
+        clause_title = re.search(r'제\s?\d+\s?조[^(\n]*', clause)  # "제 n 조"와 괄호 앞 내용까지 추출
+        if clause_title:
+            clause_title = clause_title.group(0).strip()
         else:
-            st.subheader(clause)
-    
-    # 조항 내용 출력
-    # 조항에서 법률 용어 추출 및 설명 가져오기
+            clause_title = f"조항 {i+1}"  # "제 n 조" 패턴이 없는 경우 기본 제목 사용
+
+        # 위험 조항 감지
+        sim_clause, judgment, detection_result = detection(clause, embeddings, vector_store)
+        
+        # 조항 제목을 표시 (h3 태그 사용)
+        if detection_result == 1:
+            st.markdown(f"<h3 style='color: red;'>{clause_title}</h3>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<h3 style='color: black;'>{clause_title}</h3>", unsafe_allow_html=True)
+        
+        # 조항 내용 출력 (약간 강조된 스타일 적용)
+        st.markdown(f"<div style='padding: 10px; border: 1px solid #ddd; border-radius: 5px;'>{clause}</div>", unsafe_allow_html=True)
+
+        # 조항에서 법률 용어 추출 및 설명 가져오기
         legal_terms = extract_legal_terms(clause, terms_df)
         term_explanations = legal_explanations(legal_terms, terms_df)
-    
-    # LangChain을 사용하여 조항 설명 생성
+        
+        # LangChain을 사용하여 조항 설명 생성
         explanation = generate_clause_explanation(clause, term_explanations)
         st.write("설명:", explanation)
 
-    # 위험 조항인 경우 추가 정보 출력
+        # 위험 조항인 경우 추가 정보 출력
         if detection_result == 1:
             st.write("⚠️ 유사한 위험 조항 발견:")
             st.write(f"유사 조항: {sim_clause}")
             st.write(f"판단 근거: {judgment}")
 
-    # 구분선 추가
+        # 구분선 추가
         st.write("________________________________")
