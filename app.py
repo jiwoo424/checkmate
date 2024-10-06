@@ -74,7 +74,8 @@ if file is not None:
 
     # 벡터 스토어 및 임베딩 설정
     persist_directory = "/content/drive/MyDrive/Colab Notebooks/LLM/chroma_data"
-    embeddings, vector_store = setup_vector_store(persist_directory)
+    api_key = st.secrets['API_KEY']
+    embeddings, vector_store = setup_vector_store(persist_directory, api_key)
 
     # 각 조항에 대한 처리 및 출력
     for i, clause in enumerate(clauses):
