@@ -18,7 +18,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
 from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
-from DETECTION import vector_store, detection, embeddings
+from DETECTION import initialize_embeddings, load_vector_store, detection
 
 # ChromaDB 경로 설정 (이미 생성된 데이터베이스 경로를 지정)
 persist_directory = "./chroma_db"
