@@ -81,23 +81,36 @@ if file is not None:
     api_key = st.secrets['API_KEY']
     embeddings, vector_store = setup_vector_store(persist_directory, api_key)
 
-    # 각 조항에 대한 처리 및 출력
-    for i, clause in enumerate(clauses):
-        st.subheader(f"조항 {i+1}:")
-        st.write(clause)  # 조항 출력
+# 각 조항에 대한 처리 및 출력
+for i, clause in enumerate(clauses):
+    # 조항 제목 추출
+    clause_title = clause.split('\n')[0]  # "제n조" 부분을 가져옴
 
-        # 조항에서 법률 용어 추출 및 설명 가져오기
-        legal_terms = extract_legal_terms(clause, terms_df)
-        term_explanations = legal_explanations(legal_terms, terms_df)
+    # 위험 조항 감지
+    sim_clause, judgment, detection_result = detection(clause, embeddings, vector_store)
     
-        # LangChain을 사용하여 조항 설명 생성
-        explanation = generate_clause_explanation(clause, term_explanations)
-        st.write("설명:", explanation)
+    # 조항 출력 색상 결정
+    if detection_result == 1:
+        st.markdown(f"<h2 style='color: red;'>{clause_title}</h2>", unsafe_allow_html=True)
+    else:
+        st.subheader(clause_title)
+    
+    # 조항 내용 출력
+    st.write(clause)
 
-        # 위험 조항 감지
-        sim_clause, judgment, detection_result = detection(clause, embeddings, vector_store)
-        
-        if detection_result == 1:
-            st.write("⚠️ 유사한 위험 조항 발견:")
-            st.write(f"유사 조항: {sim_clause}")
-            st.write(f"판단 근거: {judgment}")
+    # 조항에서 법률 용어 추출 및 설명 가져오기
+    legal_terms = extract_legal_terms(clause, terms_df)
+    term_explanations = legal_explanations(legal_terms, terms_df)
+    
+    # LangChain을 사용하여 조항 설명 생성
+    explanation = generate_clause_explanation(clause, term_explanations)
+    st.write("설명:", explanation)
+
+    # 위험 조항인 경우 추가 정보 출력
+    if detection_result == 1:
+        st.write("⚠️ 유사한 위험 조항 발견:")
+        st.write(f"유사 조항: {sim_clause}")
+        st.write(f"판단 근거: {judgment}")
+
+    # 구분선 추가
+    st.write("________________________________")
