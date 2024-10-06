@@ -25,7 +25,7 @@ def load_vector_store(persist_directory, embeddings):
     )
 
 
-def detection(clause, vector_store, embeddings, threshold=0.6):
+def detection(clause, vector_store, embeddings, threshold=0.7):
     # 주어진 조항과 가장 유사한 위험 조항 문서를 검색
     results = vector_store.similarity_search(clause, k=1)
     
