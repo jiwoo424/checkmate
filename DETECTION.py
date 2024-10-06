@@ -1,37 +1,39 @@
 import streamlit as st
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import FAISS, Chroma
+import os
+from langchain.embeddings import embeddings
+from langchain.vectorstores import Chroma
 from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain.schema import Document
 from langchain_upstage import UpstageEmbeddings
 from sklearn.metrics.pairwise import cosine_similarity
 import sqlite3
 
-# 벡터 스토어 및 임베딩 설정 함수
 
 api_key = st.secrets['API_KEY']
 
-def setup_vector_store(persist_directory, api_key):
-    embeddings = UpstageEmbeddings(model="solar-embedding-1-large-passage", api_key=api_key)
-    vector_store = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
-    return embeddings, vector_store
+persist_directory_db = "/chroma_db"
+db = Chroma(embedding_function=embeddings, persist_directory=persist_directory_db)
+retriever = db.as_retriever()
 
-# 위험 조항 탐지 함수
-def detection(clause, embeddings, vector_store):
-    results = vector_store.similarity_search(clause, k=1)
-    
-    # 결과가 비어 있는지 확인
-    if not results:
-        return None, None, 0
-    
-    sim_clause = results[0].page_content
-    query_vector = embeddings.embed_query(clause)
-    stored_vector = embeddings.embed_query(sim_clause)
+persist_directory_data = "/content/drive/MyDrive/Colab Notebooks/LLM/chroma_data" # 저장경로
+vector_store = Chroma(
+    persist_directory=persist_directory_data,
+    embedding_function=embeddings
+    )
 
-    cosine_sim = cosine_similarity([query_vector], [stored_vector])[0][0]
+def detection(clause,threshold = 0.8):
+  # 주어진 조항과 가장 유사한 위험 조항 문서를 불러옴
+  results = vector_store.similarity_search(clause,k=1)[0]
+  sim_clause = results.page_content # 유사 조항
+  query_vector = embeddings.embed_query(clause) # 주어진 조항의 벡터
+  stored_vector = embeddings.embed_query(sim_clause) # 유사 조항의 벡터
 
-    if cosine_sim > 0.8:
-        judgment = results[0].metadata['illdcssBasiss']
-        return sim_clause, judgment, 1
-    else:
-        return None, None, 0
+  # 두 조항 간의 코사인 유사도
+  cosine_sim = cosine_similarity([query_vector], [stored_vector])
+
+  # 유사한 조항일 경우에만 위험 조항으로 감지하고 정보를 출력함
+  if cosine_sim > threshold:
+      judgment = results.metadata['illdcssBasiss']
+      reason = results.metadata['relateLaword']
+      return sim_clause, judgment, reason, 1
+  else: return None, None, None, 0
