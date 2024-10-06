@@ -1,3 +1,4 @@
+import streamlit as st
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import FAISS, Chroma
 from langchain_community.docstore.in_memory import InMemoryDocstore
