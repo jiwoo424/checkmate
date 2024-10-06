@@ -11,12 +11,17 @@ from typing import Optional
 
 from DETECTION import initialize_embeddings, load_vector_store, detection
 
+# ChromaDB 경로 설정 (이미 생성된 데이터베이스 경로를 지정)
 persist_directory = "./chroma_data"
+persist_directory_db = "./chroma_db"
+
+
+# 임베딩 모델 및 벡터 스토어 로드
 api_key = st.secrets['API_KEY']
-
-
 embeddings = initialize_embeddings(api_key)
 vector_store = load_vector_store(persist_directory, embeddings)
+db = load_vector_store(persist_directory_db, embeddings)
+retriever = db.as_retriever()
 
 
 def extract_legal_terms(clause, terms_df):
