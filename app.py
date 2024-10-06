@@ -14,6 +14,7 @@ langchain.verbose = False
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
 from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
+from DETECTION import setup_vector_store, detection
 
 
 	
@@ -71,10 +72,14 @@ if file is not None:
         if item['type'] == '조항':
             clauses.append(item['content'])
 
-    # 조항별로 처리 및 출력
+    # 벡터 스토어 및 임베딩 설정
+    persist_directory = "/content/drive/MyDrive/Colab Notebooks/LLM/chroma_data"
+    embeddings, vector_store = setup_vector_store(persist_directory)
+
+    # 각 조항에 대한 처리 및 출력
     for i, clause in enumerate(clauses):
         st.subheader(f"조항 {i+1}:")
-        st.write(clause)  # clause 자체가 문자열이므로 이대로 출력합니다.
+        st.write(clause)  # 조항 출력
 
         # 조항에서 법률 용어 추출 및 설명 가져오기
         legal_terms = extract_legal_terms(clause, terms_df)
@@ -83,3 +88,11 @@ if file is not None:
         # LangChain을 사용하여 조항 설명 생성
         explanation = generate_clause_explanation(clause, term_explanations)
         st.write("설명:", explanation)
+
+        # 위험 조항 감지
+        sim_clause, judgment, detection_result = detection(clause, embeddings, vector_store)
+        
+        if detection_result == 1:
+            st.write("⚠️ 유사한 위험 조항 발견:")
+            st.write(f"유사 조항: {sim_clause}")
+            st.write(f"판단 근거: {judgment}")
