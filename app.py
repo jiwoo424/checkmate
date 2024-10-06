@@ -17,11 +17,11 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
-from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
+from CLAUSE import extract_legal_terms, legal_explanations, explanation, terms_df
 from DETECTION import initialize_embeddings, load_vector_store, detection
 
 # ChromaDB 경로 설정 (이미 생성된 데이터베이스 경로를 지정)
-persist_directory = "./chroma_db"
+persist_directory = "./chroma_data"
 
 # 임베딩 모델 및 벡터 스토어 로드
 api_key = st.secrets['API_KEY']
@@ -110,15 +110,9 @@ if file is not None:
                 st.write(f"**{term}**: {explanation}")
 
         # LangChain을 사용하여 조항 설명 생성
-        explanation = generate_clause_explanation(clause, term_explanations)
+        explanation = explanation(clause, term_explanations)
         st.write("### 조항에 대한 설명")
         st.write(explanation)
-
-        # 위험 조항인 경우 추가 정보 출력
-        if detection_result == 1:
-            st.write("⚠️ 유사한 위험 조항 발견:")
-            st.write(f"유사 조항: {sim_clause}")
-            st.write(f"판단 근거: {judgment}")
 
         # 구분선 추가
         st.write("________________________________")
