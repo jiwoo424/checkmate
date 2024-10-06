@@ -18,7 +18,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
 from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
-from DETECTION import setup_vector_store, detection
+from DETECTION import vector_store, detection
 
 
 	
@@ -77,10 +77,7 @@ if file is not None:
             clauses.append(item['content'])
 
     # 벡터 스토어 및 임베딩 설정
-    persist_directory = os.path.expanduser("~/checkmate/chroma_data")
-    api_key = st.secrets['API_KEY']
-    embeddings, vector_store = setup_vector_store(persist_directory, api_key)
-
+    vector_store = vector_store
 
     # 각 조항에 대한 처리 및 출력
     for i, clause in enumerate(clauses):
