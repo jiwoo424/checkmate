@@ -89,7 +89,7 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     # LLMChain을 사용하여 프롬프트와 LLM을 연결
 
-    chain = explanation_prompt|llm
+    chain = LLMChain(prompt=explanation_prompt, llm=llm)
 
     # 조항 설명 생성
     if not detection:
