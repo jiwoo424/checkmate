@@ -113,13 +113,17 @@ if file is not None:
             st.write("### 용어 설명")
             for term, explanation in term_explanations.items():
                 st.write(f"**{term}**: {explanation}")
+
         # LangChain을 사용하여 조항 설명 생성
-        explanation,reason = generate_explanation(clause)
+        explanation = generate_clause_explanation(clause, term_explanations)
         st.write("### 조항에 대한 설명")
         st.write(explanation)
 
-
-
+        # 위험 조항인 경우 추가 정보 출력
+        if detection_result == 1:
+            st.write("⚠️ 유사한 위험 조항 발견:")
+            st.write(f"유사 조항: {sim_clause}")
+            st.write(f"판단 근거: {judgment}")
 
         # 구분선 추가
         st.write("________________________________")
