@@ -6,10 +6,14 @@ from langchain_upstage import UpstageEmbeddings
 from sklearn.metrics.pairwise import cosine_similarity
 
 # 벡터 스토어 및 임베딩 설정 함수
-def setup_vector_store(persist_directory):
-    embeddings = UpstageEmbeddings(model="solar-embedding-1-large-passage")
+
+api_key = st.secrets['API_KEY']
+
+def setup_vector_store(persist_directory, api_key):
+    embeddings = UpstageEmbeddings(model="solar-embedding-1-large-passage", api_key=api_key)
     vector_store = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
     return embeddings, vector_store
+
 
 # 위험 조항 탐지 함수
 def detection(clause, embeddings, vector_store):
