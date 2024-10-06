@@ -127,7 +127,7 @@ from langchain_upstage import ChatUpstage
 # LangChain의 PromptTemplate과 LLM을 결합하여 chain 생성
 model = 'solar-1-mini-chat'
 
-def explanation(clause):
+def generate_explanation(clause):
   # 위험 조항 감지
   sim_clause, judgment, reason, detect = detection(clause)
   # 법률 용어 설명 저장
