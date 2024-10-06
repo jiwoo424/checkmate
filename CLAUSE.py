@@ -141,7 +141,8 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
       explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations","corr_ex","judgment"])
     # LLMChain을 사용하여 프롬프트와 LLM을 연결
 
-      chain = LLMChain(prompt=explanation_prompt, llm=llm)
+    
+    chain = LLMChain(prompt=explanation_prompt, llm=llm)
 
     # 조항 설명 생성
     if not detection:
