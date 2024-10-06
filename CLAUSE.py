@@ -9,8 +9,14 @@ import streamlit as st
 from langchain.llms.base import LLM
 from typing import Optional
 
-from DETECTION import detection
+from DETECTION import initialize_embeddings, load_vector_store, detection
 
+persist_directory = "./chroma_data"
+api_key = st.secrets['API_KEY']
+
+
+embeddings = initialize_embeddings(api_key)
+vector_store = load_vector_store(persist_directory, embeddings)
 
 
 def extract_legal_terms(clause, terms_df):
