@@ -79,11 +79,10 @@ if file is not None:
     # 벡터 스토어 및 임베딩 설정
     vector_store = vector_store
 
-    # 각 조항에 대한 처리 및 출력
     for i, clause in enumerate(clauses):
         # 위험 조항 감지
-        sim_clause, judgment, detection_result = detection(clause, embeddings, vector_store)
-        
+        sim_clause, judgment, reason, detection_result = detection(clause)
+
         # 조항 출력 스타일 결정 (위험 조항인 경우 빨간색 테두리)
         if detection_result == 1:
             st.markdown(
@@ -94,8 +93,7 @@ if file is not None:
             st.markdown(
                 f"<div style='padding: 10px; border: 1px solid #ddd; border-radius: 5px;'>{clause}</div>", 
                 unsafe_allow_html=True
-            )
-
+        )
         # 조항에서 법률 용어 추출 및 설명 가져오기
         legal_terms = extract_legal_terms(clause, terms_df)
         term_explanations = legal_explanations(legal_terms, terms_df)
