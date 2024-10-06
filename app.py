@@ -86,7 +86,7 @@ if file is not None:
 
     for i, clause in enumerate(clauses):
         # 위험 조항 감지
-        sim_clause, judgment, reason, detection_result = detection(clause_text, vector_store, embeddings)
+        sim_clause, judgment, reason, detection_result = detection(clause, vector_store, embeddings)
 
         # 조항 출력 스타일 결정 (위험 조항인 경우 빨간색 테두리)
         if detection_result == 1:
