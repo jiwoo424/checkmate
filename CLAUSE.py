@@ -9,6 +9,8 @@ import streamlit as st
 from langchain.llms.base import LLM
 from typing import Optional
 
+from DETECTION import detection
+
 
 
 def extract_legal_terms(clause, terms_df):
