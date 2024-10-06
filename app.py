@@ -114,23 +114,26 @@ if file is not None:
             for term, explanation in term_explanations.items():
                 st.write(f"**{term}**: {explanation}")
 
-        # LangChain을 사용하여 조항 설명 생성
-        explanation = generate_clause_explanation(clause, term_explanations)
-        st.write("### 조항에 대한 설명")
-        st.write(explanation)
 
         # 위험 조항인 경우 추가 정보 출력
         if detection_result == 1:
+            explanation = generate_clause_explanation(clause, term_explanations, True, sim_clause, judgment)
+            st.write("### 조항에 대한 설명")
+            st.write(explanation)
             st.write("### ⚠️ 유사한 위험 조항 발견:")
             st.write(f"유사 조항: {sim_clause}")
             st.write(f"판단 근거: {judgment}")
             reason = reason.split('<sep>')
-                      
             for r in reason:
                 context_docs = retriever.invoke(r)
                 r = context_docs[0].metadata['source'] + " " + r
                 st.write("### 법적 근거")
                 st.write(r)
+        else:
+            explanation = generate_clause_explanation(clause, term_explanations)
+            st.write("### 조항에 대한 설명")
+            st.write(explanation)
+
         
         # 구분선 추가
         st.write("________________________________")
