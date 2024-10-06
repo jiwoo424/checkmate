@@ -11,7 +11,7 @@ import sqlite3
 api_key = st.secrets['API_KEY']
 
 # 임베딩 모델 초기화
-embeddings = UpstageEmbeddings(model="solar-embedding-1-large-passage")
+embeddings = UpstageEmbeddings(model="solar-embedding-1-large-passage", api_key=api_key)
 
 # Chroma 데이터베이스 경로 설정
 persist_directory_db = "/chroma_db"
