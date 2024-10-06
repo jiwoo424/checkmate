@@ -77,7 +77,7 @@ if file is not None:
             clauses.append(item['content'])
 
     # 벡터 스토어 및 임베딩 설정
-    persist_directory = "/content/drive/MyDrive/Colab Notebooks/LLM/chroma_data"
+    persist_directory = os.path.expanduser("~/checkmate/chroma_data")
     api_key = st.secrets['API_KEY']
     embeddings, vector_store = setup_vector_store(persist_directory, api_key)
 
