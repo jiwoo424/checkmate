@@ -132,7 +132,7 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     용어 설명: {term_explanations}
 
-    유사 과거 조항: "{corr_clause}"
+    유사 과거 조항: "{corr_ex}"
 
     유사 과거 조항에 대한 해석: {judgment}
 
@@ -146,8 +146,8 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     # 조항 설명 생성
     if not detection:
-        simplified_clause = chain.run({"clause": clause, "term_explanations": term_explanations})
+        simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations}).content
     else:
-        simplified_clause = chain.run({"clause": clause, "term_explanations": term_explanations, "corr_ex": corr_ex, "judgment": judgment})
+        simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations, "corr_ex": corr_ex, "judgment": judgment}).content
 
     return simplified_clause
