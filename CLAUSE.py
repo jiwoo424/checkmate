@@ -128,7 +128,7 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     <질문>
     
-      주어진 조항: "{clause}"
+    주어진 조항: "{clause}"
 
     용어 설명: {term_explanations}
 

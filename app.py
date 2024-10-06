@@ -124,6 +124,12 @@ if file is not None:
             st.write("⚠️ 유사한 위험 조항 발견:")
             st.write(f"유사 조항: {sim_clause}")
             st.write(f"판단 근거: {judgment}")
-
+            reason = reason.split('<sep>')
+                      
+            for r in reason:
+                context_docs = retriever.invoke(r)
+                r = context_docs[0].metadata['source'] + " " + r
+                st.writer(f"법적 근거: {r}")
+        
         # 구분선 추가
         st.write("________________________________")
