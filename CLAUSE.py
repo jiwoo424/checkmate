@@ -168,7 +168,7 @@ def search_tavily(term):
 def explain_legal_term(term):
   if (terms_df.term == term).sum() == 0:
     model = 'solar-1-mini-chat'
-    llm = ChatUpstage(model=model)
+    llm = ChatUpstage(model=model, upstage_api_key=api_key)
     # Wikipedia에서 먼저 정보 검색
     wikipedia_info = search_wikipedia(term)
 
