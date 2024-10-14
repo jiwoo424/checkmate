@@ -105,13 +105,6 @@ if file is not None:
         # 조항에서 법률 용어 추출 및 설명 가져오기
         legal_terms = extract_legal_terms(clause, terms_df)
         term_explanations = legal_explanations(legal_terms, terms_df)
-        
-        # 용어 설명 출력
-        if term_explanations:
-            st.write("### 용어 설명")
-            for term, explanation in term_explanations.items():
-                st.write(f"**{term}**: {explanation}")
-
 
         # 위험 조항인 경우 추가 정보 출력
         if detection_result == 1:
