@@ -163,7 +163,7 @@ if file is not None:
                     st.chat_message(msg["role"]).write(msg["content"])
 
                 # 사용자 입력 처리
-                if prompt := st.chat_input("메시지를 입력하세요"):
+                if prompt := st.chat_input("메시지를 입력하세요", key="unique_chat_input"):
                     # 사용자 메시지 추가
                     st.session_state.messages.append({"role": "user", "content": prompt})
                     st.chat_message("user").write(prompt)
