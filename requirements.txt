@@ -16,4 +16,4 @@ chromadb
 protobuf==3.20.*
 pysqlite3-binary
 wikipedia==1.4.0
-git+https://github.com/tavily-ai/tavily-python.git
+tavily-python==0.5.0
