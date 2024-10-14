@@ -132,8 +132,6 @@ if file is not None:
         st.divider()
 
 
-st.subheader('질문을 적어 주세요')
-
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "더 알고 싶은 법률 용어는?"}]
