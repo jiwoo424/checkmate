@@ -65,7 +65,7 @@ class ChatUpstageLLM(LLM):
 
 def generate_clause_explanation(clause, term_explanations, detection=False, corr_ex=None, judgment=None):
     model = 'solar-1-mini-chat'
-    llm = ChatUpstage(model=model, upstage_api_key=api_key)
+    llm = ChatUpstage(model=model, upstage_api_key=api_key, temperature = 0)
 
     if not detection:
       explanation_template = """
@@ -109,7 +109,7 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     답변:
     """
-      explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations"], temperature = 0)
+      explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations"])
     else:
       explanation_template = """
     주어진 조항은 불리한 조항으로 감지된 조항이다.
@@ -169,7 +169,7 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     답변:
     """
-      explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations", "corr_ex", "judgment"], temperature = 0)
+      explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations", "corr_ex", "judgment"])
 
     
     chain = LLMChain(prompt=explanation_prompt, llm=llm)
@@ -202,7 +202,7 @@ def search_tavily(term):
 def explain_legal_term(term):
   if (terms_df.term == term).sum() == 0:
     model = 'solar-1-mini-chat'
-    llm = ChatUpstage(model=model, upstage_api_key=api_key)
+    llm = ChatUpstage(model=model, upstage_api_key=api_key, temperature = 0)
     # Wikipedia에서 먼저 정보 검색
     wikipedia_info = search_wikipedia(term)
 
