@@ -8,10 +8,7 @@ import pandas as pd
 import streamlit as st
 from langchain.llms.base import LLM
 from typing import Optional
-from langchain_chroma import Chroma
-import wikipedia
-from tavily import TavilyClient
-
+from langchain_community.vectorstores import Chroma
 
 from DETECTION import initialize_embeddings, load_vector_store
 

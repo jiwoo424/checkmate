@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain_community.docstore.in_memory import InMemoryDocstore
 from langchain.schema import Document
 from langchain_upstage import UpstageEmbeddings

@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify
 import re
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import Chroma
 
 import langchain
 langchain.verbose = False
