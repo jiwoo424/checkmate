@@ -15,5 +15,5 @@ scikit-learn
 chromadb
 protobuf==3.20.*
 pysqlite3-binary
-wikipedia==1.*
-tavily-python
+wikipedia==1.4.0
+git+https://github.com/tavily-ai/tavily-python.git
