@@ -120,64 +120,12 @@ if file is not None:
                 r = context_docs[0].metadata['source'] + " " + r
                 st.write("### 법적 근거")
                 st.write(r)
-                
-                my_expander = st.expander(f"Learn More ... {i}")  # i를 포함한 고유한 키 값
-
-                with my_expander:
-        
-                    # 세션 상태에 메시지 저장
-                    if f"messages_{i}" not in st.session_state:
-                        st.session_state[f"messages_{i}"] = [{"role": "assistant", "content": "더 알고 싶은 법률 용어는?"}]
-
-                    # 저장된 메시지 출력
-                    for msg in st.session_state[f"messages_{i}"]:
-                        st.chat_message(msg["role"]).write(msg["content"])
-
-                    # 사용자 입력 처리 (i를 사용해 고유한 key 사용)
-                    if prompt := st.chat_input("메시지를 입력하세요", key=f"chat_input_{i}"):
-                        # 사용자 메시지 추가
-                        st.session_state[f"messages_{i}"].append({"role": "user", "content": prompt})
-                        st.chat_message("user").write(prompt)
-                        
-                        # 법률 용어 설명 함수 호출 (예: explain_legal_term 함수)
-                        msg = explain_legal_term(prompt)
-                        
-                        # AI 응답 메시지 추가
-                        st.session_state[f"messages_{i}"].append({"role": "assistant", "content": msg})
-                        st.chat_message("assistant").write(msg)
-                                
+                                                
         else:
             explanation = generate_clause_explanation(clause, term_explanations)
             st.write("### 조항에 대한 설명")
             st.write(explanation)
 
-            my_expander = st.expander(f"Learn More ... {i}")  # i를 포함한 고유한 키 값
-
-            with my_expander:
-    
-                # 세션 상태에 메시지 저장
-                if f"messages_{i}" not in st.session_state:
-                    st.session_state[f"messages_{i}"] = [{"role": "assistant", "content": "더 알고 싶은 법률 용어는?"}]
-
-                # 저장된 메시지 출력
-                for msg in st.session_state[f"messages_{i}"]:
-                    st.chat_message(msg["role"]).write(msg["content"])
-
-                # 사용자 입력 처리 (i를 사용해 고유한 key 사용)
-                if prompt := st.chat_input("메시지를 입력하세요", key=f"chat_input_{i}"):
-                    # 사용자 메시지 추가
-                    st.session_state[f"messages_{i}"].append({"role": "user", "content": prompt})
-                    st.chat_message("user").write(prompt)
-                    
-                    # 법률 용어 설명 함수 호출 (예: explain_legal_term 함수)
-                    msg = explain_legal_term(prompt)
-                    
-                    # AI 응답 메시지 추가
-                    st.session_state[f"messages_{i}"].append({"role": "assistant", "content": msg})
-                    st.chat_message("assistant").write(msg)
-            
-            
-        st.session_state.clear()            
         st.divider()
 
 
