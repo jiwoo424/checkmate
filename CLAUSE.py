@@ -13,7 +13,6 @@ from langchain_community.vectorstores import Chroma
 from DETECTION import initialize_embeddings, load_vector_store
 
 import wikipedia
-from tavily-python import TavilyClient
 
 
 persist_directory = "./chroma_data"
