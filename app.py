@@ -145,6 +145,7 @@ if file is not None:
                         # AI 응답 메시지 추가
                         st.session_state[f"messages_{i}"].append({"role": "assistant", "content": msg})
                         st.chat_message("assistant").write(msg)
+                st.stop()
                             
         else:
             explanation = generate_clause_explanation(clause, term_explanations)
@@ -175,6 +176,7 @@ if file is not None:
                     # AI 응답 메시지 추가
                     st.session_state[f"messages_{i}"].append({"role": "assistant", "content": msg})
                     st.chat_message("assistant").write(msg)
+            st.stop()
             
         st.divider()
 
@@ -202,5 +204,4 @@ with my_expander:
         # AI 응답 메시지 추가
         st.session_state.messages.append({"role": "assistant", "content": msg})
         st.chat_message("assistant").write(msg)
-
-
+st.stop()
