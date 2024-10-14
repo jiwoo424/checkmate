@@ -143,3 +143,45 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     return simplified_clause
 
+
+import wikipedia
+from tavily import TavilyClient
+
+wikipedia.set_lang("ko")
+tvly_key = input()
+tavily_client = TavilyClient(api_key=tvly_key)
+
+def search_wikipedia(term):
+    try:
+        summary = wikipedia.summary(term, sentences=2)
+        return summary
+    except wikipedia.exceptions.DisambiguationError as e:
+        return None
+    except wikipedia.exceptions.PageError:
+        return None
+
+def search_tavily(term):
+  response = tavily_client.search(f"법률 혹은 부동산 용어 {term}에 대해 설명해줘",max_results = 1)
+  return response
+
+def explain_legal_term(term):
+  if (terms_df.term == term).sum() == 0:
+    llm = ChatUpstage(model=model)
+    # Wikipedia에서 먼저 정보 검색
+    wikipedia_info = search_wikipedia(term)
+
+    # 위키피디아 정보가 있으면 LLM에게 쉽게 설명 요청
+    if wikipedia_info:
+        info = f"검색 정보: {wikipedia_info}"
+        prompt = f"""다음 법률 혹은 부동산 용어에 대해 일반인이 쉽게 이해할 수 있도록 설명해.
+        용어: {term}
+        {info}"""
+        return llm(prompt).content
+    else:
+        tvly_info = search_tavily(term)['results'][0]['content']
+        info = f"검색 정보: {tvly_info}"
+        prompt = f"""다음 법률 혹은 부동산 용어에 대해 일반인이 쉽게 이해할 수 있도록 설명해.
+        용어: {term}
+        {info}"""
+        return llm(prompt).content
+  else: return terms_df[terms_df.term == term]["definition"].values[0]
