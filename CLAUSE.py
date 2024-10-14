@@ -12,6 +12,10 @@ from langchain_community.vectorstores import Chroma
 
 from DETECTION import initialize_embeddings, load_vector_store
 
+import wikipedia
+from tavily-python import TavilyClient
+
+
 persist_directory = "./chroma_data"
 persist_directory_db = "./chroma_db"
 
@@ -144,8 +148,6 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
     return simplified_clause
 
 
-import wikipedia
-from tavily import TavilyClient
 
 wikipedia.set_lang("ko")
 tvly_key = input()
