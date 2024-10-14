@@ -8,70 +8,40 @@ from langchain_core.messages import HumanMessage
 
 
 
-# OCR 텍스트에서 '제 x 조' 패턴으로 시작하고, 문장부호로 끝나는 조항을 인식하여 따로 저장하는 함수
-def extract_clauses_with_order(ocr_text):
-    clauses = []
-    processed_text = []
+def extract_clauses_as_dict(ocr_text):
+    # 조항을 "제 ~ 조" 패턴으로 분리, 조항 번호를 포함하여 분리
+    clauses = re.split(r'(제 \d+ 조)', ocr_text)
 
-    # "제 x 조" 패턴으로 시작하고, 마침표로 끝나는 조항을 모두 인식
-    clause_pattern = re.compile(r'(제\s?\d+\s?조[^.!?]*[.!?])', re.DOTALL)  # 조항이 중간에 줄바꿈이 있어도 인식되도록 DOTALL 플래그 사용
-    matches = clause_pattern.finditer(ocr_text)
+    # 조항 딕셔너리 생성
+    merged_clauses = {}
+    current_clause = ""
+    current_clause_number = 0
 
-    last_index = 0
-    for match in matches:
-        start, end = match.span()
-        # 조항 전의 텍스트를 처리
-        pre_text = ocr_text[last_index:start].strip()
-        if pre_text:
-            processed_text.append(pre_text)
-        # 조항을 인식하고 저장
-        clauses.append(match.group().strip())
-        processed_text.append(f"조항: {match.group().strip()}")
-        last_index = end
+    for i in range(1, len(clauses) - 1, 2):
+        # '제 ~ 조'로 시작하는 부분을 현재 조항의 제목으로 설정
+        clause_title = clauses[i]
+        clause_content = clauses[i + 1]
 
-    # 남은 텍스트 처리
-    remaining_text = ocr_text[last_index:].strip()
-    if remaining_text:
-        processed_text.append(remaining_text)
+        # 현재 조항의 번호를 추출
+        clause_number = int(re.search(r'\d+', clause_title).group())
 
-    return clauses, processed_text
-
-# 불필요한 줄바꿈을 제거하는 함수
-def clean_text(text):
-    return text.replace('\n', ' ').strip()
-
-# 나머지 텍스트에 대해서 조항이 아닌 부분은 전부 '해당없음'으로 처리하는 함수
-def classify_remaining_text(remaining_text_list):
-    results = []
-
-    # 남은 텍스트를 줄바꿈 기준으로 나누어 처리
-    for line in remaining_text_list:
-        if line.startswith("조항:"):
-            results.append(line)  # 조항은 그대로 처리
+        # 언급된 조항이 현재 조항 번호보다 작거나 같을 경우 포함
+        if current_clause_number >= clause_number:
+            current_clause += clause_title + clause_content
         else:
-            # 남은 텍스트의 각 줄에 대해 '해당없음' 처리
-            lines = line.split("\n")
-            for l in lines:
-                l = l.strip()
-                if l:
-                    results.append(f"해당없음: {clean_text(l)}")
+            # 불필요한 줄바꿈과 공백 제거
+            if current_clause:
+                # 기본 공백과 줄바꿈 제거
+                cleaned_text = re.sub(r'\s+', ' ', current_clause).strip()
+                merged_clauses[current_clause_number] = cleaned_text
 
-    return results
+            # 다음 조항으로 이동
+            current_clause = clause_title + clause_content
+            current_clause_number = clause_number
 
-# 최종적으로 조항을 분리하고 나머지를 처리하는 함수, 결과를 딕셔너리로 저장
-def process_ocr_text(ocr_text):
-    # 1. 조항을 추출하고 순서를 유지하여 텍스트를 처리
-    clauses, remaining_text_list = extract_clauses_with_order(ocr_text)
+    # 마지막 조항 추가
+    if current_clause:
+        cleaned_text = re.sub(r'\s+', ' ', current_clause).strip()
+        merged_clauses[current_clause_number] = cleaned_text
 
-    # 2. 나머지 텍스트에 대해 전부 '해당없음' 처리
-    classified_remaining_text = classify_remaining_text(remaining_text_list)
-
-    # 3. 딕셔너리에 저장 (조항과 해당없음)
-    final_dict = {}
-    for idx, entry in enumerate(classified_remaining_text):
-        if entry.startswith("조항:"):
-            final_dict[f"item_{idx+1}"] = {"type": "조항", "content": entry.split(": ", 1)[1]}
-        else:
-            final_dict[f"item_{idx+1}"] = {"type": "해당없음", "content": entry.split(": ", 1)[1]}
-
-    return final_dict
+    return merged_clauses
