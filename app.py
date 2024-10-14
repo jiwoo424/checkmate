@@ -120,12 +120,15 @@ if file is not None:
                 r = context_docs[0].metadata['source'] + " " + r
                 st.write("### 법적 근거")
                 st.write(r)
+            my_expander = st.expander("Learn More ... ")
+            
         else:
             explanation = generate_clause_explanation(clause, term_explanations)
             st.write("### 조항에 대한 설명")
             st.write(explanation)
+            my_expander = st.expander("Learn More ... ")
             
-        my_expander = st.expander("Learn More ... ")
+        
 
 
         st.divider()
