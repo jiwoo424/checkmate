@@ -10,6 +10,7 @@ import re
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_community.vectorstores import Chroma
+import uuid
 
 import langchain
 langchain.verbose = False
@@ -133,7 +134,7 @@ if file is not None:
                     st.chat_message(msg["role"]).write(msg["content"])
 
                 # 사용자 입력 처리
-                if prompt := st.chat_input("메시지를 입력하세요"):
+                if prompt := st.chat_input("메시지를 입력하세요", key=str(uuid.uuid4())):
                     # 사용자 메시지 추가
                     st.session_state.messages.append({"role": "user", "content": prompt})
                     st.chat_message("user").write(prompt)
@@ -163,7 +164,7 @@ if file is not None:
                     st.chat_message(msg["role"]).write(msg["content"])
 
                 # 사용자 입력 처리
-                if prompt := st.chat_input("메시지를 입력하세요", key="unique_chat_input"):
+                if prompt := st.chat_input("메시지를 입력하세요", key=str(uuid.uuid4())):
                     # 사용자 메시지 추가
                     st.session_state.messages.append({"role": "user", "content": prompt})
                     st.chat_message("user").write(prompt)
