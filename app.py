@@ -19,7 +19,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
-from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
+from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df, explain_legal_term
 from DETECTION import initialize_embeddings, load_vector_store, detection
 
 persist_directory = "./chroma_data"
@@ -129,6 +129,21 @@ if file is not None:
             my_expander = st.expander("Learn More ... ")
             
 
-
         st.divider()
-        
+
+
+st.subheader('질문을 적어 주세요')
+
+
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [{"role": "assistant", "content": "더 알고 싶은 법률 용어는?"}]
+
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"]).write(msg["content"])
+
+if prompt := st.chat_input():
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.chat_message("user").write(prompt)
+    msg =  explain_legal_term(prompt)
+    st.session_state.messages.append({"role": "assistant", "content": msg})
+    st.chat_message("assistant").write(msg)    
