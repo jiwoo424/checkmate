@@ -123,7 +123,11 @@ if file is not None:
                 st.write(r)
                 
             my_expander = st.expander("Learn More ... ")
-            with my_expander:  
+
+            with my_expander:  # Expander가 열릴 때마다 새로운 키 생성
+                # Expander가 열렸을 때 고유한 키를 생성
+                if "unique_key" not in st.session_state or not my_expander.expanded:
+                    st.session_state["unique_key"] = str(uuid.uuid4())  # 새로운 UUID 생성
 
                 # 세션 상태에 메시지 저장
                 if "messages" not in st.session_state:
@@ -133,8 +137,8 @@ if file is not None:
                 for msg in st.session_state.messages:
                     st.chat_message(msg["role"]).write(msg["content"])
 
-                # 사용자 입력 처리
-                if prompt := st.chat_input("메시지를 입력하세요", key="chat_input"):
+                # 사용자 입력 처리 (expander가 열릴 때마다 새로운 key 사용)
+                if prompt := st.chat_input("메시지를 입력하세요", key=st.session_state["unique_key"]):
                     # 사용자 메시지 추가
                     st.session_state.messages.append({"role": "user", "content": prompt})
                     st.chat_message("user").write(prompt)
@@ -145,7 +149,6 @@ if file is not None:
                     # AI 응답 메시지 추가
                     st.session_state.messages.append({"role": "assistant", "content": msg})
                     st.chat_message("assistant").write(msg)
-
             
         else:
             explanation = generate_clause_explanation(clause, term_explanations)
@@ -153,7 +156,11 @@ if file is not None:
             st.write(explanation)
 
             my_expander = st.expander("Learn More ... ")
-            with my_expander:  
+
+            with my_expander:  # Expander가 열릴 때마다 새로운 키 생성
+                # Expander가 열렸을 때 고유한 키를 생성
+                if "unique_key" not in st.session_state or not my_expander.expanded:
+                    st.session_state["unique_key"] = str(uuid.uuid4())  # 새로운 UUID 생성
 
                 # 세션 상태에 메시지 저장
                 if "messages" not in st.session_state:
@@ -163,8 +170,8 @@ if file is not None:
                 for msg in st.session_state.messages:
                     st.chat_message(msg["role"]).write(msg["content"])
 
-                # 사용자 입력 처리
-                if prompt := st.chat_input("메시지를 입력하세요", key="chat_input"):
+                # 사용자 입력 처리 (expander가 열릴 때마다 새로운 key 사용)
+                if prompt := st.chat_input("메시지를 입력하세요", key=st.session_state["unique_key"]):
                     # 사용자 메시지 추가
                     st.session_state.messages.append({"role": "user", "content": prompt})
                     st.chat_message("user").write(prompt)
@@ -174,8 +181,7 @@ if file is not None:
                     
                     # AI 응답 메시지 추가
                     st.session_state.messages.append({"role": "assistant", "content": msg})
-                    st.chat_message("assistant").write(msg)
-            
+                    st.chat_message("assistant").write(ms            
 
         st.divider()
 
