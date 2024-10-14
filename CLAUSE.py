@@ -12,8 +12,6 @@ from langchain_community.vectorstores import Chroma
 
 from DETECTION import initialize_embeddings, load_vector_store
 
-from tavily-python import TavilyClient
-
 
 persist_directory = "./chroma_data"
 persist_directory_db = "./chroma_db"
