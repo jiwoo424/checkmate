@@ -181,7 +181,7 @@ if file is not None:
                     
                     # AI 응답 메시지 추가
                     st.session_state.messages.append({"role": "assistant", "content": msg})
-                    st.chat_message("assistant").write(ms            
+                    st.chat_message("assistant").write(msg)    
 
         st.divider()
 
