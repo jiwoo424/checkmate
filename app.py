@@ -124,5 +124,9 @@ if file is not None:
             explanation = generate_clause_explanation(clause, term_explanations)
             st.write("### 조항에 대한 설명")
             st.write(explanation)
+            
+        my_expander = st.expander("Learn More ... ")
 
-        st.write("________________________________")
+
+        st.divider()
+        
