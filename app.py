@@ -120,7 +120,21 @@ if file is not None:
                 r = context_docs[0].metadata['source'] + " " + r
                 st.write("### 법적 근거")
                 st.write(r)
+                
             my_expander = st.expander("Learn More ... ")
+            if "messages" not in st.session_state:
+                st.session_state["messages"] = [{"role": "assistant", "content": "더 알고 싶은 법률 용어는?"}]
+
+            for msg in st.session_state.messages:
+                st.chat_message(msg["role"]).write(msg["content"])
+
+            if prompt := st.chat_input():
+                st.session_state.messages.append({"role": "user", "content": prompt})
+                st.chat_message("user").write(prompt)
+                msg =  explain_legal_term(prompt)
+                st.session_state.messages.append({"role": "assistant", "content": msg})
+                st.chat_message("assistant").write(msg)    
+            
             
         else:
             explanation = generate_clause_explanation(clause, term_explanations)
@@ -133,15 +147,3 @@ if file is not None:
 
 
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "더 알고 싶은 법률 용어는?"}]
-
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).write(msg["content"])
-
-if prompt := st.chat_input():
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user").write(prompt)
-    msg =  explain_legal_term(prompt)
-    st.session_state.messages.append({"role": "assistant", "content": msg})
-    st.chat_message("assistant").write(msg)    
