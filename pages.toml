@@ -4,6 +4,12 @@ name = "Home"
 icon = "🏠"
 
 [[pages]]
+path = "page1.py"
+name = "Page 1"
+icon = "😎"
+
+
+[[pages]]
 path = "page2.py"
 name = "Page 2"
 icon = ":books:"
