@@ -99,9 +99,10 @@ if file is not None:
             )
         else:
             st.markdown(
-                f"<div style='padding: 10px; border: 1px solid #ddd; border-radius: 5px;'>{clause}</div>", 
+                f"<div style='padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f0f0f0;'>{clause}</div>", 
                 unsafe_allow_html=True
-        )
+            )
+
         # 조항에서 법률 용어 추출 및 설명 가져오기
         legal_terms = extract_legal_terms(clause, terms_df)
         term_explanations = legal_explanations(legal_terms, terms_df)
@@ -109,21 +110,21 @@ if file is not None:
         # 위험 조항인 경우 추가 정보 출력
         if detection_result == 1:
             explanation = generate_clause_explanation(clause, term_explanations, True, sim_clause, judgment)
-            st.write("### 조항에 대한 설명")
+            st.write("**조항 해설**")
             st.write(explanation)
-            st.write("### ⚠️ 유사한 위험 조항 발견")
+            st.write("**⚠️ 유사한 위험 조항 발견**")
             st.write(f"유사 조항: {sim_clause}")
             st.write(f"전문가 견해: {judgment}")
             reason = reason.split('<sep>')
             for r in reason:
                 context_docs = retriever.invoke(r)
                 r = context_docs[0].metadata['source'] + " " + r
-                st.write("### 법적 근거")
+                st.write("**법적 근거**")
                 st.write(r)
                                                 
         else:
             explanation = generate_clause_explanation(clause, term_explanations)
-            st.write("### 조항에 대한 설명")
+            st.write("**조항 해설**")
             st.write(explanation)
 
         st.divider()
