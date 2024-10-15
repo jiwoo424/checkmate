@@ -110,6 +110,7 @@ if file is not None:
         # 위험 조항인 경우 추가 정보 출력
         if detection_result == 1:
             explanation = generate_clause_explanation(clause, term_explanations, True, sim_clause, judgment)
+            st.write("")
             st.write("**조항 해설**")
             st.write(explanation)
             st.write("**⚠️ 유사한 위험 조항 발견**")
@@ -124,6 +125,7 @@ if file is not None:
                                                 
         else:
             explanation = generate_clause_explanation(clause, term_explanations)
+            st.write("")
             st.write("**조항 해설**")
             st.write(explanation)
 
