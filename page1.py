@@ -141,7 +141,9 @@ if file is not None:
                 st.write(r)
             my_expander = st.expander("단어 사전")
             with my_expander:
-                st.write(legal_terms)
+                if term_explanations:
+                    for term, explanation in term_explanations.items():
+                        st.write(f"**{term}**: {explanation}")
 
                                                 
         else:
@@ -151,6 +153,9 @@ if file is not None:
             st.write(explanation)
             my_expander = st.expander("단어 사전")
             with my_expander:
-                st.write(legal_terms)
+                if term_explanations:
+                    for term, explanation in term_explanations.items():
+                        st.write(f"**{term}**: {explanation}")
+
 
         st.divider()
