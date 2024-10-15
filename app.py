@@ -29,7 +29,7 @@ add_page_title()
 show_pages(
     [
         Page("app.py", "Home", "🏠"),
-        Page("page2.py", "Page 2", ":books:"),
+        Page("chat.py", "Page 2", ":books:"),
 
     ]
 )
