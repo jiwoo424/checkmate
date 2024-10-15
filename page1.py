@@ -41,6 +41,7 @@ st.divider()
 st.subheader('검토-분석이 필요한 계약서는?')
 file = st.file_uploader('계약서를 업로드 하세요', type=['jpg', 'jpeg', 'png'])
 
+
 def save_uploaded_file(directory, file):
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -77,6 +78,7 @@ if file is not None:
     # OCR 결과에서 텍스트 추출
     ocr_text = extract_ocr_text(ocr_result)
     
+    
     # 최종적으로 조항을 분리하고 결과를 딕셔너리로 저장
     final_classified_text = extract_clauses_as_dict(ocr_text)
     
@@ -91,9 +93,14 @@ if file is not None:
     for i, clause in enumerate(clauses):
         # 위험 조항 감지
         sim_clause, judgment, reason, detection_result = detection(clause, vector_store, embeddings)
+        
+
+        num_risky = 0
 
         # 조항 출력 스타일 결정 (위험 조항인 경우 빨간색 테두리)
         if detection_result == 1:
+            num_risky += 1
+
             st.markdown(
                 f"<div style='padding: 10px; border: 2px solid red; border-radius: 5px; background-color: #ffe6e6;'>{clause}</div>", 
                 unsafe_allow_html=True
@@ -107,6 +114,18 @@ if file is not None:
         # 조항에서 법률 용어 추출 및 설명 가져오기
         legal_terms = extract_legal_terms(clause, terms_df)
         term_explanations = legal_explanations(legal_terms, terms_df)
+        
+        first_line = ocr_text.split('\n')[0]
+        title = re.match(r'[가-힣]+', first_line).group()
+        st.write("해당 계약서는 ", title, "입니다.")
+        
+        total_clauses = len(clauses)
+        st.write("총 ", total_clauses, "개의 조항 중 ", num_risky, "개의 위험 조항이 감지되었습니다.")
+
+
+
+
+
 
         # 위험 조항인 경우 추가 정보 출력
         if detection_result == 1:
