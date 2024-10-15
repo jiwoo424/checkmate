@@ -1,0 +1,14 @@
+[[pages]]
+path = "app.py"
+name = "Home"
+icon = "🏠"
+
+[[pages]]
+path = "main.py"
+name = "Page 2"
+icon = ":books:"
+
+[[pages]]
+path = "chat.py"
+name = "Page 2"
+icon = ":books:"
