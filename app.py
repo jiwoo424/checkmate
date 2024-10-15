@@ -4,9 +4,9 @@ add_page_title()
 
 show_pages(
     [
-        Page("app.py", "Home", "🏠"),
-        Page("page1.py", "Page 2", ":books:"),
-        Page("page2.py", "Page 2", ":books:"),
+        Page("app.py", "서비스 소개", "🏠"),
+        Page("page1.py", "계약서 업로드", "📑"),
+        Page("page2.py", "법률 용어 질문", "📖"),
 
     ]
 )
