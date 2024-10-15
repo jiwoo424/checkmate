@@ -4,11 +4,11 @@ name = "Home"
 icon = "🏠"
 
 [[pages]]
-path = "main.py"
+path = "page1.py"
 name = "Page 2"
 icon = ":books:"
 
 [[pages]]
-path = "chat.py"
+path = "page2.py"
 name = "Page 2"
 icon = ":books:"
