@@ -29,13 +29,9 @@ from DETECTION import initialize_embeddings, load_vector_store, detection
 st.set_page_config(layout="wide")
 
 nav = get_nav_from_toml("pages.toml")
-
-st.logo("logo.png")
-
 pg = st.navigation(nav)
 
 add_page_title(pg)
-
 pg.run()
 
 
