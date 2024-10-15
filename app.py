@@ -10,7 +10,6 @@ import re
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_community.vectorstores import Chroma
-import uuid
 from st_pages import add_page_title, get_nav_from_toml
 
 
