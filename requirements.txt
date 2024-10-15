@@ -17,4 +17,4 @@ protobuf==3.20.*
 pysqlite3-binary
 wikipedia
 tavily-python
-st_pages
+st_pages==0.5.0
