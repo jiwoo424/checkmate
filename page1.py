@@ -91,21 +91,17 @@ if file is not None:
     first_line = ocr_text.split('\n')[0]
     title = re.match(r'[가-힣]+', first_line).group()
 
-# 위험 조항 감지 및 개수 카운트
+    total_clauses = len(clauses)
+    num_risky = 0
+
     for clause in clauses:
         sim_clause, judgment, reason, detection_result = detection(clause, vector_store, embeddings)
         
         if detection_result == 1:
             num_risky += 1
-    
-    # 총 조항 개수 및 위험 조항 개수 계산
-    total_clauses = len(clauses)
-    num_risky = 0
 
-    # 계약서 제목 및 조항 개수 출력 (한 번만 출력)
     st.write(f"해당 계약서는 {title}입니다.")
     st.write(f"총 {total_clauses}개의 조항 중 {num_risky}개의 위험 조항이 감지되었습니다.")
-
 
 
     for i, clause in enumerate(clauses):
