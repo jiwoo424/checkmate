@@ -1,5 +1,4 @@
 import streamlit as st
-from st_pages import Page, show_pages, add_page_title
 from PIL import Image
 import streamlit as st
 import pandas as pd
@@ -51,10 +50,6 @@ if "current_page" not in st.session_state:
 def switch_page(page):
     st.session_state["current_page"] = page
 
-with st.sidebar:
-    st.button("서비스 소개", on_click=lambda: switch_page("home"))
-    st.button("계약서 업로드", on_click=lambda: switch_page("upload"))
-    st.button("법률 용어 질문", on_click=lambda: switch_page("question"))
 
 if st.session_state["current_page"] == "home":
     st.title("전세/월세 사기계약 방지를 위한 부동산계약서 검토-분석 서비스")
