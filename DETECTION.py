@@ -22,7 +22,7 @@ def load_vector_store(persist_directory, embeddings):
     )
 
 
-def detection(clause, vector_store, embeddings, threshold=0.9):
+def detection(clause, vector_store, embeddings, threshold=0.85):
     results = vector_store.similarity_search(clause, k=1)
     
     if not results:
