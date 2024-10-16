@@ -151,6 +151,7 @@ elif st.session_state["current_page"] == "upload":
 
         st.write(f"해당 계약서는 {title}입니다.")
         st.write(f"총 {total_clauses}개의 조항 중 {num_risky}개의 위험 조항이 감지되었습니다.")
+        st.divider()
 
         for i, clause in enumerate(clauses):
             sim_clause, judgment, reason, detection_result = detection_results[i]
