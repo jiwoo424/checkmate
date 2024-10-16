@@ -101,7 +101,13 @@ elif st.session_state["current_page"] == "upload":
         img = Image.open(file)
         st.image(img)
         
+        if "uploaded_file_path" not in st.session_state:
+            st.session_state["uploaded_file_path"] = {}
+            
+        img.save(file_path)
+        
         file_path = os.path.join('tmp', file.name)
+    
 
         # OCR API 호출
         def extract_text_from_document(api_key, filename):
