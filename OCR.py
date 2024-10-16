@@ -10,7 +10,7 @@ from langchain_core.messages import HumanMessage
 
 def extract_clauses_as_dict(ocr_text):
     # 조항을 "제 ~ 조" 패턴으로 분리, 조항 번호를 포함하여 분리
-    clauses = re.split(r'(제 \d+ 조)', ocr_text)
+    clauses = re.split(r'(제\s*\d+\s*조)', ocr_text)
 
     # 조항 딕셔너리 생성
     merged_clauses = {}
