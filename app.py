@@ -51,7 +51,7 @@ def save_uploaded_file(directory, file):
 
 
 
-add_page_title()
+# add_page_title()
 
 # show_pages(
 #     [
@@ -103,6 +103,10 @@ elif st.session_state["current_page"] == "upload":
         
         if "uploaded_file_path" not in st.session_state:
             st.session_state["uploaded_file_path"] = {}
+        
+        # 이미지가 RGBA 모드라면 RGB로 변환
+        if img.mode == "RGBA":
+            img = img.convert("RGB")
         
         file_path = f"tmp/{file.name}"    
         img.save(file_path)
