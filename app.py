@@ -90,9 +90,10 @@ if st.session_state["current_page"] == "home":
 
 
 elif st.session_state["current_page"] == "upload":    
+    st.title("조항 검토-분석")
+
     if "uploaded_file_path" in st.session_state and "path" in st.session_state["uploaded_file_path"]:
         file_path = st.session_state["uploaded_file_path"]["path"]
-        st.title("조항 검토-분석")
         
         st.write("계약서 미리보기:")
         img = Image.open(file_path)
