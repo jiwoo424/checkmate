@@ -59,6 +59,7 @@ if st.session_state["current_page"] == "home":
     st.title("전세/월세 사기계약 방지를 위한 부동산계약서 검토-분석 서비스")
     st.write("명품인재 x 업스테이지 LLM Innovators Challenge")
     st.write("<p>team <b style='color:red'>체크메이트</b></p>", unsafe_allow_html=True)
+    st.divider()
 
     st.subheader("계약서 업로드")
     file = st.file_uploader("계약서를 업로드하세요", type=["jpg", "jpeg", "png"])
@@ -91,10 +92,12 @@ if st.session_state["current_page"] == "home":
 elif st.session_state["current_page"] == "upload":    
     if "uploaded_file_path" in st.session_state and "path" in st.session_state["uploaded_file_path"]:
         file_path = st.session_state["uploaded_file_path"]["path"]
+        st.title("조항 검토-분석")
+        
         st.write("계약서 미리보기:")
-
         img = Image.open(file_path)
         st.image(img)
+        st.divider()
 
         if "ocr_result" not in st.session_state or "detection_results" not in st.session_state:
             def extract_text_from_document(api_key, filename):
@@ -213,6 +216,7 @@ elif st.session_state["current_page"] == "question":
 
         img = Image.open(file_path)
         st.image(img)
+        st.divider()
         
         if "messages" not in st.session_state:
             st.session_state["messages"] = [{"role": "assistant", "content": "단어를 입력해주세요."}]
