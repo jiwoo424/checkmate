@@ -90,18 +90,22 @@ if file is not None:
 
     first_line = ocr_text.split('\n')[0]
     title = re.match(r'[가-힣]+', first_line).group()
-
     total_clauses = len(clauses)
     num_risky = 0
 
+    detection_results = []
+    
     for clause in clauses:
-        sim_clause, judgment, reason, detection_result = detection(clause, vector_store, embeddings)
-        
-        if detection_result == 1:
-            num_risky += 1
+            results = detection(clause, vector_store, embeddings)
+            detection_results.append(results)
+            if results[3] == 1:
+                num_risky += 1
+        st.write(f"해당 계약서는 {title}입니다.")
+        st.write(f"총 {total_clauses}개의 조항 중 {num_risky}개의 위험 조항이 감지되었습니다.")
 
-    st.write(f"해당 계약서는 {title}입니다.")
-    st.write(f"총 {total_clauses}개의 조항 중 {num_risky}개의 위험 조항이 감지되었습니다.")
+        for i, clause in enumerate(clauses):
+            sim_clause, judgment, reason, detection_result = detection_results[i]
+
 
 
     for i, clause in enumerate(clauses):
