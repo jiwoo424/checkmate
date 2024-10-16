@@ -104,7 +104,7 @@ if file is not None:
     st.write(f"총 {total_clauses}개의 조항 중 {num_risky}개의 위험 조항이 감지되었습니다.")
 
     for i, clause in enumerate(clauses):
-            sim_clause, judgment, reason, detection_result = detection_results[i]
+        sim_clause, judgment, reason, detection_result = detection_results[i]
         # 조항 출력 스타일 결정 (위험 조항인 경우 빨간색 테두리)
         if detection_result == 1:
             st.markdown(
