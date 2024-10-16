@@ -147,7 +147,7 @@ elif st.session_state["current_page"] == "upload":
             clauses = st.session_state["ocr_result"]["clauses"]
             detection_results = st.session_state["ocr_result"]["detection_results"]
 
-        st.subheader("<p>총 {total_clauses}개의 조항 중 <b style='color:red'>{num_risky}</b>개의 위험 조항이 감지되었습니다.</p>")
+        st.subheader("총 {total_clauses}개의 조항 중 {num_risky}개의 위험 조항이 감지되었습니다.")
         st.divider()
 
         for i, clause in enumerate(clauses):
