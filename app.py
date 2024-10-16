@@ -213,9 +213,45 @@ elif st.session_state["current_page"] == "upload":
             st.divider()
             
 
+# elif st.session_state["current_page"] == "question":
+#     st.title("법률 용어 질문")
+
+#     if "uploaded_file_path" in st.session_state and "path" in st.session_state["uploaded_file_path"]:
+#         file_path = st.session_state["uploaded_file_path"]["path"]
+#         st.write("업로드된 계약서 미리보기:")
+
+#         img = Image.open(file_path)
+#         st.image(img)
+        
+#         if "messages" not in st.session_state:
+#             st.session_state["messages"] = [{"role": "assistant", "content": "단어를 입력해주세요."}]
+
+#         for msg in st.session_state.messages:
+#             st.chat_message(msg["role"]).write(msg["content"])
+
+#         if prompt := st.chat_input("메시지를 입력하세요", key="chat_input"):
+
+#             st.session_state.messages.append({"role": "user", "content": prompt})
+#             st.chat_message("user").write(prompt)
+                
+#             msg = explain_legal_term(prompt)
+                
+#             st.session_state.messages.append({"role": "assistant", "content": msg})
+#             st.chat_message("assistant").write(msg)
+            
+            
+#     else:
+#         st.warning("계약서를 먼저 업로드해주세요. (업로드 페이지로 이동)")
+
+
 elif st.session_state["current_page"] == "question":
     st.title("법률 용어 질문")
 
+    # 업로드 경로가 올바르게 저장되었는지 로그로 확인
+    if "uploaded_file_path" in st.session_state:
+        st.write("업로드 경로 확인:", st.session_state["uploaded_file_path"])
+
+    # uploaded_file_path에 "path"가 있는지 확인
     if "uploaded_file_path" in st.session_state and "path" in st.session_state["uploaded_file_path"]:
         file_path = st.session_state["uploaded_file_path"]["path"]
         st.write("업로드된 계약서 미리보기:")
@@ -230,7 +266,6 @@ elif st.session_state["current_page"] == "question":
             st.chat_message(msg["role"]).write(msg["content"])
 
         if prompt := st.chat_input("메시지를 입력하세요", key="chat_input"):
-
             st.session_state.messages.append({"role": "user", "content": prompt})
             st.chat_message("user").write(prompt)
                 
@@ -239,9 +274,9 @@ elif st.session_state["current_page"] == "question":
             st.session_state.messages.append({"role": "assistant", "content": msg})
             st.chat_message("assistant").write(msg)
             
-            
     else:
         st.warning("계약서를 먼저 업로드해주세요. (업로드 페이지로 이동)")
+
 
 
 # st.title("전세/월세 사기계약 방지를 위한 부동산계약서 검토-분석 서비스 ")
