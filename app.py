@@ -51,8 +51,8 @@ def switch_page(page):
     st.session_state["current_page"] = page
 
 with st.sidebar:
-    st.button("서비스 소개", on_click=lambda: switch_page("home"))
-    st.button("계약서 업로드", on_click=lambda: switch_page("upload"))
+    st.button("계약서 업로드", on_click=lambda: switch_page("home"))
+    st.button("조항 검토-분석", on_click=lambda: switch_page("upload"))
     st.button("법률 용어 질문", on_click=lambda: switch_page("question"))
 
 if st.session_state["current_page"] == "home":
@@ -91,7 +91,7 @@ if st.session_state["current_page"] == "home":
 elif st.session_state["current_page"] == "upload":    
     if "uploaded_file_path" in st.session_state and "path" in st.session_state["uploaded_file_path"]:
         file_path = st.session_state["uploaded_file_path"]["path"]
-        st.write("업로드된 계약서 미리보기:")
+        st.write("계약서 미리보기:")
 
         img = Image.open(file_path)
         st.image(img)
@@ -197,6 +197,11 @@ elif st.session_state["current_page"] == "upload":
                             st.write(f"**{term}**: {explanation}")
 
             st.divider()
+            
+    else:
+        st.warning("계약서를 먼저 업로드해주세요. (업로드 페이지로 이동)")
+
+
 
 elif st.session_state["current_page"] == "question":
     st.title("법률 용어 질문")
@@ -204,7 +209,7 @@ elif st.session_state["current_page"] == "question":
 
     if "uploaded_file_path" in st.session_state and "path" in st.session_state["uploaded_file_path"]:
         file_path = st.session_state["uploaded_file_path"]["path"]
-        st.write("업로드된 계약서 미리보기:")
+        st.write("계약서 미리보기:")
 
         img = Image.open(file_path)
         st.image(img)
