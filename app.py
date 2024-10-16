@@ -60,7 +60,7 @@ if st.session_state["current_page"] == "home":
     st.write("명품인재 x 업스테이지 LLM Innovators Challenge")
     st.write("<p>team <b style='color:red'>체크메이트</b></p>", unsafe_allow_html=True)
 
-    st.title("계약서 업로드")
+    st.subheader("계약서 업로드")
     file = st.file_uploader("계약서를 업로드하세요", type=["jpg", "jpeg", "png"])
 
     if file is not None:
