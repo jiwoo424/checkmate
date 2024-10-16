@@ -112,7 +112,11 @@ elif st.session_state["current_page"] == "upload":
         img.save(file_path)
         
         file_path = os.path.join('tmp', file.name)
-    
+        st.session_state["uploaded_file_path"]["path"] = file_path
+
+        # 쿼리 파라미터로 데이터 전달
+        st.experimental_set_query_params(uploaded="true")
+        st.success("계약서가 업로드되었습니다!")  
 
         # OCR API 호출
         def extract_text_from_document(api_key, filename):
