@@ -203,10 +203,8 @@ def explain_legal_term(term):
   if (terms_df.term == term).sum() == 0:
     model = 'solar-1-mini-chat'
     llm = ChatUpstage(model=model, upstage_api_key=api_key, temperature = 0)
-    # Wikipedia에서 먼저 정보 검색
     wikipedia_info = search_wikipedia(term)
 
-    # 위키피디아 정보가 있으면 LLM에게 쉽게 설명 요청
     if wikipedia_info:
         info = f"검색 정보: {wikipedia_info}"
         prompt = f"""다음 법률 혹은 부동산 용어에 대해 일반인이 쉽게 이해할 수 있도록 설명해.
