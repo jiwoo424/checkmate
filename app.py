@@ -53,6 +53,8 @@ def switch_page(page):
 with st.sidebar:
     st.button("조항 검토-분석", on_click=lambda: switch_page("home"))
     st.button("법률 용어 질문", on_click=lambda: switch_page("question"))
+    
+    
 
 if st.session_state["current_page"] == "home":
     st.title("전세/월세 사기계약 방지를 위한 부동산계약서 검토-분석 서비스")
