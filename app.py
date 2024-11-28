@@ -52,7 +52,6 @@ def switch_page(page):
 
 with st.sidebar:
     st.button("조항 검토-분석", on_click=lambda: switch_page("home"))
-    st.button("", on_click=lambda: switch_page("upload"))
     st.button("법률 용어 질문", on_click=lambda: switch_page("question"))
 
 if st.session_state["current_page"] == "home":
