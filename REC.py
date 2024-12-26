@@ -1,5 +1,6 @@
 import numpy as np
 import streamlit as st
+import pandas as pd
 from langchain_upstage import UpstageEmbeddings
 
 api_key = st.secrets['API_KEY']
