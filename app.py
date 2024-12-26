@@ -200,7 +200,7 @@ if st.session_state["current_page"] == "home":
                 st.divider()
                 
                 options = ['전세자금대출을 받았거나, 받을 예정', '전세보증보험에 가입했거나, 가입할 예정']
-                selected_option = st.selectbox('옵션을 선택하세요:', options)
+                selected_option = st.selectbox('옵션을 선택하세요:', options, key="unique_selectbox_key")
                 st.write('현재 나는', selected_option)
                 
         else:
