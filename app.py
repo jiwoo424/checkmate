@@ -27,7 +27,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 from OCR import extract_clauses_as_dict
 from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df, explain_legal_term
 from DETECTION import initialize_embeddings, load_vector_store, detection
-from RECOMMEND import get_embedding, recommend_clause
+from REC import get_embedding, recommend_clause
 
 persist_directory = "./chroma_data"
 persist_directory_db = "./chroma_db"
