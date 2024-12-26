@@ -27,7 +27,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 from OCR import extract_clauses_as_dict
 from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df, explain_legal_term
 from DETECTION import initialize_embeddings, load_vector_store, detection
-from REC import get_embedding, recommend_clause
+from REC import get_embedding, recommend_clause, print_agreements
 
 persist_directory = "./chroma_data"
 persist_directory_db = "./chroma_db"
@@ -203,8 +203,28 @@ if st.session_state["current_page"] == "home":
 
                 st.divider()
             
+            st.subheader("추가 추천 특약")
+            
+            
+            for clause in clauses:
+                idx, distance = recommend_clause(clause, agreements, threshold=0.4)
+                if idx is not None:
+                    indices = []
+                    if loan == 'O':
+                        indices.append(3)  # 전세자금대출 관련 추천 인덱스
+                    if insurance == 'O':
+                        indices.extend([4, 5])  # 전세보증보험 관련 추천 인덱스
+                    result = agreements.loc[list(set(indices))]
 
-               
+                    for idx, row in result.iterrows():
+                        st.write("### 추천 특약 사항:")
+                        st.write(row['agreement'])
+                        st.write("**추천 근거:**")
+                        st.write(row['comment'])
+                        st.write("---")               
+                    
+
+
         else:
             st.warning("계약서를 업로드해주세요.")
             
