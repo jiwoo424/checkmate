@@ -9,7 +9,7 @@ agreements = pd.read_pickle("agreements.pkl")
 
 def get_embedding(text):
     embeddings = UpstageEmbeddings(api_key=api_key, model="solar-embedding-1-large-passage")
-    response = embeddings.embed_documents([text])  # Upstage는 리스트 형식 입력 요구
+    response = embeddings.embed_documents([text])
     return np.array(response[0]) 
 
 
