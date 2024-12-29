@@ -202,19 +202,19 @@ if st.session_state["current_page"] == "home":
 
                 st.divider()
             
-                st.subheader("추가 추천 특약")
-                
-                
-                indices = []
-                recommend_clause(clauses)
-                rec_df = print_agreements()
+            clauses = st.session_state["ocr_result"]["clauses"]
+            
+            st.subheader("추가 추천 특약")
+            indices = []
+            recommend_clause(clauses)
+            rec_df = print_agreements()
 
-                for idx, row in rec_df.iterrows():
-                    st.subheader(f"추천 특약 사항 {idx + 1}:")
-                    st.write(row["agreement"])
-                    st.markdown("**추천 근거:**")
-                    st.write(row["comment"])
-                    st.markdown("---")
+            for idx, row in rec_df.iterrows():
+                st.subheader(f"추천 특약 사항 {idx + 1}:")
+                st.write(row["agreement"])
+                st.markdown("**추천 근거:**")
+                st.write(row["comment"])
+                st.markdown("---")    
 
         else:
             st.warning("계약서를 업로드해주세요.")
