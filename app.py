@@ -200,11 +200,13 @@ if st.session_state["current_page"] == "home":
                 st.divider()
             
             clauses = st.session_state["ocr_result"]["clauses"]
-            loan = st.radio("전세자금대출 여부:", ('O', 'X'))
-            insurance = st.radio("전세보증보험 가입 여부:", ('O', 'X'))
+            # loan = st.radio("전세자금대출 여부:", ('O', 'X'))
+            # insurance = st.radio("전세보증보험 가입 여부:", ('O', 'X'))
             
             st.subheader("추가 추천 특약")
             indices = recommend_clause(clause = clauses)
+            loan = 'O'
+            insurance = 'O'
             rec_df = print_agreements()
 
             for idx, row in rec_df.iterrows():
