@@ -13,7 +13,7 @@ def get_embedding(text):
     return np.array(response[0]) 
 
 def recommend_clause(clause, agreements= agreements.loc[:2], threshold=0.4):
-    embedded_clause = [get_embedding(text) for text in clauses]
+    embedded_clause = [get_embedding(text) for text in clause]
     embeddings = agreements['feature'].values
     distances = [np.linalg.norm(embedded_clause - emb) for emb in embeddings]
     idx = np.argmin(distances)
