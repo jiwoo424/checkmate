@@ -13,16 +13,16 @@ def get_embedding(text):
     return np.array(response[0]) 
 
 def recommend_clause(clause, agreements= agreements.loc[:2], threshold=0.4):
+    indices_ini = []
     embedded_clause = [get_embedding(text) for text in clause]
     embeddings = agreements['feature'].values
     distances = [np.linalg.norm(embedded_clause - emb) for emb in embeddings]
     idx = np.argmin(distances)
     if distances[idx] < threshold:
-        indices.append(idx)
-
+        indices_ini.append(idx)
+    return indices_ini
 
 def print_agreements():
-  global indices
   indices = list(set(indices)) # 중복제거
   if loan == 'O':
     indices.append(3)
