@@ -207,6 +207,15 @@ if st.session_state["current_page"] == "home":
             indices = recommend_clause(clause = clauses)
             loan = 'O'
             insurance = 'O'
+            
+            def print_agreements():
+                if loan == 'O':
+                    indices.append(3)
+                if insurance == 'O':
+                    indices.append(4)
+                    indices.append(5)
+                result = agreements.loc[indices]
+                return result
             rec_df = print_agreements()
 
             for idx, row in rec_df.iterrows():

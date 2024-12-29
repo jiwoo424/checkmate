@@ -22,12 +22,3 @@ def recommend_clause(clause, agreements= agreements.loc[:2], threshold=0.4):
         indices_ini.append(idx)
         indices_ini = list(set(indices_ini))
     return indices_ini
-
-def print_agreements():
-  if loan == 'O':
-    indices.append(3)
-  if insurance == 'O':
-    indices.append(4)
-    indices.append(5)
-  result = agreements.loc[indices]
-  return result
