@@ -20,10 +20,10 @@ def recommend_clause(clause, agreements= agreements.loc[:2], threshold=0.4):
     idx = np.argmin(distances)
     if distances[idx] < threshold:
         indices_ini.append(idx)
+        indices_ini = list(set(indices_ini))
     return indices_ini
 
 def print_agreements():
-  indices = list(set(indices)) # 중복제거
   if loan == 'O':
     indices.append(3)
   if insurance == 'O':
