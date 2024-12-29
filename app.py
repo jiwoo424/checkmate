@@ -206,7 +206,7 @@ if st.session_state["current_page"] == "home":
             
             st.subheader("추가 추천 특약")
             indices = []
-            recommend_clause(clauses)
+            recommend_clause(clause = clauses)
             rec_df = print_agreements()
 
             for idx, row in rec_df.iterrows():
