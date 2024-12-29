@@ -205,24 +205,16 @@ if st.session_state["current_page"] == "home":
             st.subheader("추가 추천 특약")
             
             
-            for clause in clauses:
-                idx, distance = recommend_clause(clause, agreements, threshold=0.4)
-                if idx is not None:
-                    indices = []
-                    if loan == 'O':
-                        indices.append(3)  # 전세자금대출 관련 추천 인덱스
-                    if insurance == 'O':
-                        indices.extend([4, 5])  # 전세보증보험 관련 추천 인덱스
-                    result = agreements.loc[list(set(indices))]
+            indices = []
+            recommend_clause(clauses)
+            rec_df = print_agreements()
 
-                    for idx, row in result.iterrows():
-                        st.write("### 추천 특약 사항:")
-                        st.write(row['agreement'])
-                        st.write("**추천 근거:**")
-                        st.write(row['comment'])
-                        st.write("---")               
-                    
-
+            for idx, row in rec_df.iterrows():
+                st.subheader(f"추천 특약 사항 {idx + 1}:")
+                st.write(row["agreement"])
+                st.markdown("**추천 근거:**")
+                st.write(row["comment"])
+                st.markdown("---")
 
         else:
             st.warning("계약서를 업로드해주세요.")
