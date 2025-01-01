@@ -204,7 +204,7 @@ if st.session_state["current_page"] == "home":
             
             clauses = st.session_state["ocr_result"]["clauses"]
                         
-            st.subheader("추가 추천 특약")
+            st.subheader("✅ 추가 추천 특약")
             indices = recommend_clause(clause = clauses)
             
             def print_agreements():
