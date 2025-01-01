@@ -203,9 +203,7 @@ if st.session_state["current_page"] == "home":
                 st.divider()
             
             clauses = st.session_state["ocr_result"]["clauses"]
-            # loan = st.radio("전세자금대출 여부:", ('O', 'X'))
-            # insurance = st.radio("전세보증보험 가입 여부:", ('O', 'X'))
-            
+                        
             st.subheader("추가 추천 특약")
             indices = recommend_clause(clause = clauses)
             
@@ -219,12 +217,15 @@ if st.session_state["current_page"] == "home":
                 return result
             rec_df = print_agreements()
 
-            for idx, row in rec_df.iterrows():
-                st.subheader(f"추천 특약 사항 {row + 1}:")
-                st.write(row["agreement"])
+            for i, row in enumerate(rec_df.iterrows(), start=1):  # enumerate로 번호 강제 지정
+                st.subheader(f"추천 특약 사항 {i}:")  # 줄 번호로 일관되게 출력
+                st.markdown(
+                    f"<div style='padding: 10px; border: 2px solid green; border-radius: 5px; background-color: #e6ffe6;'>{row[1]['agreement']}</div>",
+                    unsafe_allow_html=True
+                )
                 st.markdown("**추천 근거:**")
-                st.write(row["comment"])
-                st.markdown("---")    
+                st.write(row[1]["comment"])
+                st.markdown("---")
 
         else:
             st.warning("계약서를 업로드해주세요.")
