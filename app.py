@@ -66,6 +66,9 @@ if st.session_state["current_page"] == "home":
 
     st.subheader("계약서 업로드")
     file = st.file_uploader("계약서를 업로드하세요", type=["jpg", "jpeg", "png"])
+    loan = st.radio("전세자금대출 여부:", ('O', 'X'))
+    insurance = st.radio("전세보증보험 가입 여부:", ('O', 'X'))
+
 
     if file is not None:
         current_time = datetime.now().isoformat().replace(':', '_')
@@ -205,8 +208,6 @@ if st.session_state["current_page"] == "home":
             
             st.subheader("추가 추천 특약")
             indices = recommend_clause(clause = clauses)
-            loan = 'O'
-            insurance = 'O'
             
             def print_agreements():
                 if loan == 'O':
@@ -219,7 +220,7 @@ if st.session_state["current_page"] == "home":
             rec_df = print_agreements()
 
             for idx, row in rec_df.iterrows():
-                st.subheader(f"추천 특약 사항 {idx + 1}:")
+                st.subheader(f"추천 특약 사항 {row + 1}:")
                 st.write(row["agreement"])
                 st.markdown("**추천 근거:**")
                 st.write(row["comment"])
